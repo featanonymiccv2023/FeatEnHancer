@@ -31,7 +31,6 @@ Download the [ExDark](https://github.com/cs-chan/Exclusively-Dark-Image-Dataset)
 
 ```
 sh test_exdark.sh
-
 ```
 
 
