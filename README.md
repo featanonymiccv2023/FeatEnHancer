@@ -43,6 +43,11 @@ Clone the FeatEnHancer repo:
 ```
 https://github.com/featanonymiccv2023/FeatEnHancer.git
 ```
+### Note:
+* Since checkpoint models for ExDark And DARK FACE are greater than the permissible limit, we upload them in an anonymous google drive.
+* Neither the code nor the google drive links are updated after Supplementary deadline of ICCV 2023.
+* Models for other downstream tasks such as Semantic Segmentation and Video Object Detection are based on other frameworks. Therefore, a unified repository will be released after the publication of this work.
+
 
 ### ExDark
 
