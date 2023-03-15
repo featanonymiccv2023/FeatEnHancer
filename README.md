@@ -2,6 +2,14 @@
 <h1>FeatEnHancer: Enhancing Hierarchical Features for Object Detection and
 Beyond Under Low-Light Vision</h1>
 
+
+<div align="center">
+
+<img src="figs/Exdark-Gif.gif" height="360">
+
+</div>
+
+
 </div>
 
 
