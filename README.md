@@ -27,7 +27,7 @@ python setup.py build develop
 
 For testing, run:
 
-Download the ExDark dataset and place the images into data/images/ folder and run the test_exdark file
+Download the [ExDark](https://github.com/cs-chan/Exclusively-Dark-Image-Dataset) dataset and place the images into data/images/ folder and run the test_exdark file
 
 ```
 sh test_exdark.sh
