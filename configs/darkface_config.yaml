@@ -11,9 +11,9 @@ DATASETS:
   PROPOSAL_FILES_TEST: []
   PROPOSAL_FILES_TRAIN: []
   TEST:
-  - exdark_test
+  - darkface_val
   TRAIN:
-  - exdark_train
+  - darkface_train
 GLOBAL:
   HACK: 1.0
 INPUT:
@@ -137,7 +137,7 @@ MODEL:
     WIDTH_PER_GROUP: 64
   RETINANET:
     BBOX_REG_LOSS_TYPE: smooth_l1
-    BBOX_REG_WEIGHTS:
+    BBOX_REG_WEIGHTS: &id002
     - 1.0
     - 1.0
     - 1.0
@@ -167,7 +167,8 @@ MODEL:
     TOPK_CANDIDATES_TEST: 1000
   ROI_BOX_CASCADE_HEAD:
     BBOX_REG_WEIGHTS:
-    - - 10.0
+    - &id001
+      - 10.0
       - 10.0
       - 5.0
       - 5.0
@@ -186,11 +187,7 @@ MODEL:
   ROI_BOX_HEAD:
     BBOX_REG_LOSS_TYPE: smooth_l1
     BBOX_REG_LOSS_WEIGHT: 1.0
-    BBOX_REG_WEIGHTS:
-    - 10.0
-    - 10.0
-    - 5.0
-    - 5.0
+    BBOX_REG_WEIGHTS: *id001
     CLS_AGNOSTIC_BBOX_REG: false
     CONV_DIM: 256
     FC_DIM: 1024
@@ -256,11 +253,7 @@ MODEL:
     BATCH_SIZE_PER_IMAGE: 256
     BBOX_REG_LOSS_TYPE: smooth_l1
     BBOX_REG_LOSS_WEIGHT: 1.0
-    BBOX_REG_WEIGHTS:
-    - 1.0
-    - 1.0
-    - 1.0
-    - 1.0
+    BBOX_REG_WEIGHTS: *id002
     BOUNDARY_THRESH: -1
     CONV_DIMS:
     - -1
@@ -318,7 +311,7 @@ MODEL:
     L1_WEIGHT: 5.0
     NHEADS: 8
     NO_OBJECT_WEIGHT: 0.1
-    NUM_CLASSES: 12
+    NUM_CLASSES: 1
     NUM_CLS: 1
     NUM_DYNAMIC: 2
     NUM_HEADS: 2
@@ -326,14 +319,14 @@ MODEL:
     NUM_REG: 3
     PRIOR_PROB: 0.01
     USE_FOCAL: true
-  WEIGHTS: exdark_original/model_0049999.pth
-OUTPUT_DIR: output
+  WEIGHTS: output_darkface/weights.pth
+OUTPUT_DIR: output_darkface
 SEED: 40244023
 SOLVER:
   AMP:
     ENABLED: false
   BACKBONE_MULTIPLIER: 1.0
-  BASE_LR: 2.5e-06
+  BASE_LR: 2.5e-05
   BASE_LR_END: 0.0
   BIAS_LR_FACTOR: 1.0
   CHECKPOINT_PERIOD: 5000
@@ -343,7 +336,7 @@ SOLVER:
     ENABLED: true
     NORM_TYPE: 2.0
   GAMMA: 0.1
-  IMS_PER_BATCH: 8
+  IMS_PER_BATCH: 4
   LR_SCHEDULER_NAME: WarmupMultiStepLR
   MAX_ITER: 50000
   MOMENTUM: 0.9
@@ -398,7 +391,7 @@ TEST:
     - - 0
       - 10000
   DETECTIONS_PER_IMAGE: 100
-  EVAL_PERIOD: 5000
+  EVAL_PERIOD: 2000
   EXPECTED_RESULTS: []
   KEYPOINT_OKS_SIGMAS: []
   PRECISE_BN:

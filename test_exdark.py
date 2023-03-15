@@ -111,7 +111,7 @@ def setup(args):
 def main(args):
     cfg = setup(args)
     torch.cuda.empty_cache()
-    register_coco_instances("exdark_test", {}, "data/exdark_test.json", "data/images/")
+    register_coco_instances("exdark_test", {}, "data/exdark_test.json", "data/exdark/")
 
 
     if args.eval_only:

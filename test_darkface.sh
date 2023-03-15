@@ -1,0 +1,1 @@
+python test_exdark.py  --config-file configs/darkface_config.yaml --eval-only MODEL.WEIGHTS checkpoint/model_darkface.pth
