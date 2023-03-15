@@ -37,9 +37,9 @@ sh test_exdark.sh
 
 ## Results
 
-
-
-<table>
+<div align="center">
+  
+  <table>
 <tr><th> ExDark </th> <th> </th> <th> DARK FACE </th></tr>
 <tr><td>
 
@@ -56,7 +56,7 @@ sh test_exdark.sh
 |                       **FeatEnHancer**                              | **86.3**  | **56.5** |  
 </td>
 
-  <td>         </td>
+<td>         </td>
   
 <td>
 
@@ -72,35 +72,15 @@ sh test_exdark.sh
 |                            MAET                                     |   66.1    |   27.1   |   
 |                       **FeatEnHancer**                              | **69.0**  | **29.4** | 
 
-</td></tr> </table>
+</td></tr>
+</table>
 
-### ExDark
 
-|                          Method                                     |   AP@50   |   AP  |
-|:-------------------------------------------------------------------:|:---------:| :-----:  |
-|                          Baseline                                   |   74.5    |    47.0  | 
-|                            RAUS                                     |   77.0    |   48.1   | 
-|                            KIND                                     |   80.5    |   51.5   |  
-|                          Zero-DCE++                                 |   79.5    |   49.2   | 
-|                           EnGAN                                     |   80.0    |   51.9   |   
-|                           MBLLEN                                    |   80.0    |   51.0   |   
-|                          Zero-DCE                                   |   80.6    |   52.0   |  
-|                            MAET                                     |   81.6    |   52.4   |   
-|                       **FeatEnHancer**                              | **86.3**  | **56.5** |  
 
-### DARK FACE
+</div>
 
-|                          Method                                     |   AP@50   |   AP  |
-|:-------------------------------------------------------------------:|:---------:| :-----:  |
-|                          Baseline                                   |   67.5    |   28.6   | 
-|                            RAUS                                     |   65.5    |   27.4   | 
-|                            KIND                                     |   65.0    |   27.5   |  
-|                          Zero-DCE++                                 |   66.2    |   28.2   | 
-|                           EnGAN                                     |   67.4    |   28.4   |   
-|                           MBLLEN                                    |   67.3    |   27.1   |   
-|                          Zero-DCE                                   |   66.9    |   27.5   |  
-|                            MAET                                     |   66.1    |   27.1   |   
-|                       **FeatEnHancer**                              | **69.0**  | **29.4** | 
+
+
 
 
 
