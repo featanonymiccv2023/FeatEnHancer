@@ -10,40 +10,68 @@ import random
 
 
 class ScaleAwareFeatureAggregation(nn.Module):
+
+    """
+      ScaleAwareFeatureAggregation happens in five steps
+
+      1 : Downgrade the size of two feature maps.
+      2 : Converts the feature maps into query and key representaions.
+      3 : Concats the downgraded features and divide it into blocks.
+      4 : Performs Multi-Head Attention.
+      5 : Aggregates and outputs the enhanced representation
+
+    """
+
+
     def __init__(self, channels, query_image_size, key_image_size):
         super().__init__()
 
-        self.num_attention_blocks = 8
-        if self.num_attention_blocks > 0:
+        query_stride = query_image_size // 79
+        key_stride = key_image_size // 79
+        key_kernel = key_stride
+        if key_stride > 1:
+            key_kernel = 3
+
+        self.num_temporal_attention_blocks = 8
+        if self.num_temporal_attention_blocks  > 0:
             self.query_conv1 = nn.Conv2d(in_channels = channels , out_channels = channels , kernel_size= 7, stride=4)
             self.query_conv2 = nn.Conv2d(in_channels=channels, out_channels=channels, kernel_size=3, stride=2)
             self.key_conv = nn.Conv2d(in_channels = channels , out_channels = channels , kernel_size=3, stride=2)
 
 
-    def forward(self, x, ref_x):
+    def forward(self, x, quarter_scale_x):
         """ 
-            Aggregate the X7 features`x` with the Qurter features
-   
+        Args : 
+            x:  a list of, feature map in (C, H, W) format.
+            quarter_scale_x: a list of, quarter scale feature map in (C, H/4, W/4) format.
+
+        Returns :
+            aggregated_enhanced_representation : enhanced aggregated feature representations of
+                                                 two feature maps from different scales.
+                                                 a list of, enhanced features in (C, H, W)
+
         """
+
         orig_x = x
+
+        # Key Query Generation
         x = self.query_conv1(x)
         x = self.query_conv2(x)
-        ref_x = self.key_conv(ref_x)
+        quarter_scale_x = self.key_conv(quarter_scale_x)
         batch_size, C, roi_h, roi_w = x.size()
         
         x = x.view(batch_size, 1, C, roi_h, roi_w)
-        ref_x = ref_x.view(batch_size, 1, C, roi_h, roi_w)
+        quarter_scale_x = quarter_scale_x.view(batch_size, 1, C, roi_h, roi_w)
 
-        x = torch.cat((x, ref_x), dim=1)
+        x = torch.cat((x, quarter_scale_x), dim=1)
         batch_size, img_n, _, roi_h, roi_w = x.size()
-        num_attention_blocks = self.num_temporal_attention_blocks
 
-        # 1. Pass through a tiny embed network
-        # (img_n * roi_n, C, H, W)
+        # Calculating the number of attention blocks
+        num_attention_blocks = self.num_temporal_attention_blocks
         x_embed = x
         c_embed = x_embed.size(2)
 
-        # 2. Perform multi-head attention
+        # Performing multi-head attention
         # (img_n, num_attention_blocks, C / num_attention_blocks, H, W)
         x_embed = x_embed.view(batch_size, img_n, num_attention_blocks, -1, roi_h,
                                roi_w)
@@ -57,25 +85,32 @@ class ScaleAwareFeatureAggregation(nn.Module):
         ada_weights = ada_weights.expand(-1, -1, -1,
                                          int(c_embed / num_attention_blocks),
                                          -1, -1).contiguous()
-        # (img_n, roi_n, C, H, W)
         ada_weights = ada_weights.view(batch_size, img_n, c_embed, roi_h, roi_w)
         ada_weights = ada_weights.softmax(dim=1)
 
-        # print(f"Shapes before aggregation expand ada_weights : {ada_weights.shape} and X shape : {x.shape}")
-        # 3. Aggregation
+        # Aggregation and generation of enhanced representation
         x = (x * ada_weights).sum(dim=1)
-
         upsample = nn.UpsamplingBilinear2d((orig_x.size()[-2], orig_x.size()[-1]))
-        out = upsample(x)
-        out = orig_x + out
-        return out
+        aggregated_feature = upsample(x)
+        aggregated_enhanced_representation = orig_x + aggregated_feature
+        return aggregated_enhanced_representation
 
 class FeatEnHancer(nn.Module):
 
+    """
+      Feature extraction for dark objects occurs in three stages
+      1 : Extract low light features in three scales 
+      2 : Scale aware aggregation of low light features 
+      3 : Construction of enhanced representation of the input image
+
+
+      Args : 
+           in_channels : represent the number of channels in the input image (default is 3, considering RGB image)
+
+    """
+
     def __init__(self, in_channels=3):
         super(FeatEnHancer, self).__init__()
-
-        
 
         int_out_channels = 32
         out_channels = 24
@@ -88,6 +123,7 @@ class FeatEnHancer(nn.Module):
         self.e_conv5 = nn.Conv2d(int_out_channels * 2, int_out_channels, 3, 1, 1, bias=True)
         self.e_conv6 = nn.Conv2d(int_out_channels * 2, int_out_channels, 3, 1, 1, bias=True)
         self.e_conv7 = nn.Conv2d(int_out_channels * 2, out_channels, 3, 1, 1, bias=True)
+
         # our convolution layers to transform the concatenated feature maps into the required feature shapes
         self.ue_conv8 = nn.Conv2d(out_channels*2, int_out_channels, 3, 1, 1, bias=True)
         self.ue_conv9 = nn.Conv2d(int_out_channels, out_channels, 3, 1, 1, bias=True)
@@ -99,10 +135,21 @@ class FeatEnHancer(nn.Module):
 
     def forward(self, x):
 
+        """
+        Args:
+            x : a list, batched inputs of :class:`DatasetMapper` .
+                Each item in the list contains the inputs for one image.
+                * image: Tensor, image in (C, H, W) format.
+        
+        Returns:
+            enhanced_representation : a list, of enhanced representations
+                                      Each representation is a Tensor, in (N, C, H, W) format.  
+        """
+
         quarter_scale_x = self.quarter_conv(x)
         hexa_scale_x = self.hexa_conv(quarter_scale_x)
-        # print(f" quarter_scale_x: ·{quarter_scale_x.shape} hexa_scale SHAPE AFTER SECOND MAXPOOL : ·{hexa_scale_x.shape}")
-
+       
+        # Extracting low light featurs at three different scales
         x1 = self.relu(self.e_conv1(x))
         quarter_scale_x1 = self.relu(self.e_conv1(quarter_scale_x))
         hexa_scale_x1 = self.relu(self.e_conv1(hexa_scale_x))
@@ -131,54 +178,42 @@ class FeatEnHancer(nn.Module):
         quarter_scale_x7 = self.relu(self.e_conv7(torch.cat([quarter_scale_x1, quarter_scale_x6], 1)))
         hexa_scale_x7 = self.e_conv7(torch.cat([hexa_scale_x1, hexa_scale_x6], 1))
 
-        # APPLYING CROSS ATTTENTION BETWEEN X7 AND QUARTER SCALE FIRST then SC between Hexa and X7
+        # Applying ScaleAwareFeatureAggregation between X7 and quarter_scale_x7
         x7 = self.feature_aggregation_block(x7, quarter_scale_x7)
 
-        # Now Upsampling hexa scale to make all them equal to x in H x W for SC
+        # Upsampling hexa scale to H x W for Skip connection
         x_upsample = nn.UpsamplingBilinear2d((x7.size()[-2], x7.size()[-1]))
         hexa_scale_x7 = x_upsample(hexa_scale_x7)
-       
         x8 = self.ue_conv8(torch.cat([x7, hexa_scale_x7], 1))
 
-        # Downsampling from 32 to 24, 32 features transformation helps
-        x_r = torch.tanh(self.ue_conv9(x8))
-
-        r1, r2, r3, r4, r5, r6, r7, r8 = torch.split(x_r, 3, dim=1)
-        x = x + r1
-        x = x + r2
-        x = x + r3
-        x = x + r4
-        x = x + r5
-        x = x + r6
-        x = x + r7
-        enhanced_image_final = x + r8
-        return enhanced_image_final
+        # Construction of Enhanced representation
+        activated_enhanced_feature = torch.tanh(self.ue_conv9(x8))
+        feature1, feature2, feature3, feature4, feature5, feature6, feature7, feature8 = torch.split(activated_enhanced_feature, 3, dim=1)  
+        x = x + feature1
+        x = x + feature2
+        x = x + feature3
+        x = x + feature4
+        x = x + feature5
+        x = x + feature6
+        x = x + feature7
+        enhanced_representation = x + feature8
+        return enhanced_representation
         
         
 
-    def feature_aggregation_block(self, x, ref_x):
-        # Just passing Standard Convolution Feature maps
-        # Projections For Q,K, and V are convolutional layers
+    def feature_aggregation_block(self, x, quarter_scale_x):
+        # Initilizes the ScaleAwareFeatureAggregation class 
+        # Does the forward pass and returns the enhanced feature representation of both the input feature maps
 
-        cross_att = ScaleAwareFeatureAggregation(channels=x.size()[1], query_image_size=x.size()[2], key_image_size=ref_x.size()[2]).to('cuda')
-        out = cross_att(x, ref_x)
-        # print(f"quarter_scale_x7 shape after ATTENTION: ·{x.shape}")
-        return out
-
-    def square_padding(self, x, ref_x, patch_size=16):
-        # This function is not needed ATM. Since image input sizes
-        # Are initialized with same H and W for now
-        # Finding the max of W and H and making them resizable by patch size
-        w, h = x.size()[2:]
-        # max_wh = np.max([w, h])
-        # finding the nearest number that is divisble by 16
-        max_wh = int(patch_size * round(w /patch_size))
-
-        hp = int((max_wh - w) / 2)
-        vp = int((max_wh - h) / 2)
-        max_wh+=hp
-        padding = (vp, hp, vp, hp)
-
-        x = F.pad(x, padding, 0, 'constant')
-        ref_x = F.pad(ref_x, padding, 0, 'constant')
-        return x, ref_x
+        """
+        Args:
+            x:  a feature map in (C, H, W) format.
+            quarter_scale_x:  quarter scale feature map in (C, H/4, W/4) format.
+        
+        Returns:
+            aggregated_enhanced_representation : Tensor, in (C, H, W) format.
+        """
+        
+        scale_aware_aggregation = ScaleAwareFeatureAggregation(channels=x.size()[1], query_image_size=x.size()[2], key_image_size=quarter_scale_x.size()[2]).to('cuda')
+        aggregated_enhanced_representation = scale_aware_aggregation(x, quarter_scale_x)
+        return aggregated_enhanced_representation
