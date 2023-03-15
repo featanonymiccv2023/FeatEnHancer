@@ -13,7 +13,7 @@ Beyond Under Low-Light Vision</h1>
 </div>
 
 
-## Introduction
+## Abstract
 
 Extracting useful visual cues for the downstream tasks is especially challenging under low-light vision. Prior works create enhanced representations by either correlating visual quality with machine perception or designing illumination-degrading transformation methods that require pre-training on synthetic datasets. We argue that optimizing enhanced image representation pertaining to the loss of the downstream task can result in more expressive representations. Therefore, in this work, we propose a novel module, FeatEnHancer, that hierarchically combines multiscale features using multi-headed attention guided by task-related loss function to create suitable representations. Furthermore, our intra-scale enhancement improves the quality of features extracted at each scale or level, as well as combines features from different scales in a way that reflects their relative importance for the task at hand. FeatEnHancer is a general-purpose plug-and-play module and can be incorporated into any low-light vision pipeline. We show with extensive experimentation that the enhanced representation produced with FeatEnHancer significantly and consistently improves results in several dark vision tasks, including dark object detection (+5.7 mAP on ExDark), face detection (+1.5 mAP on DARK FACE), nighttime semantic segmentation (+5.1 mIoU on ACDC ), and video object detection (+1.8 mAP on DarkVision), highlighting the effectiveness of enhancing hierarchical features under low-light vision.
 
@@ -24,11 +24,11 @@ Extracting useful visual cues for the downstream tasks is especially challenging
 </div>
 
 
-## Installation and Training
+## Installation
 
-Our methods are based on [detectron2](https://github.com/facebookresearch/detectron2), please refer to [here](https://detectron2.readthedocs.io/en/latest/tutorials/install.html) for more details.
+Our code is based on [Detectron2](https://github.com/facebookresearch/detectron2), please refer to [here](https://detectron2.readthedocs.io/en/latest/tutorials/install.html) for more details.
 
-Install the detectron2:
+Install the Detectron2:
 
 ```
 git clone https://github.com/facebookresearch/detectron2.git
@@ -43,6 +43,11 @@ Clone the FeatEnHancer repo:
 ```
 https://github.com/featanonymiccv2023/FeatEnHancer.git
 ```
+### Notes:
+* Since checkpoint models for ExDark And DARK FACE are greater than the permissible limit, we upload them in an anonymous google drive.
+* Neither the code nor the google drive links are updated after Supplementary deadline of ICCV 2023.
+* Models for other downstream tasks such as Semantic Segmentation and Video Object Detection are based on other frameworks. Therefore, a unified repository will be released after the publication of this work.
+
 
 ### ExDark
 
