@@ -36,8 +36,6 @@ git clone https://github.com/facebookresearch/detectron2.git
 python setup.py build develop
 ```
 
-For testing:
-
 Clone the FeatEnHancer repo:
 
 ```
