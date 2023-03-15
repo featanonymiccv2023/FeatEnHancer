@@ -326,7 +326,7 @@ MODEL:
     NUM_REG: 3
     PRIOR_PROB: 0.01
     USE_FOCAL: true
-  WEIGHTS: output_exdark/weights.pth
+  WEIGHTS: checkpoints/queryrcnn_r101_cascade_300pro_3x_f7617a4d.pth
 OUTPUT_DIR: output_exdark
 SEED: 40244023
 SOLVER:
