@@ -55,6 +55,12 @@ Download the [ExDark](https://github.com/cs-chan/Exclusively-Dark-Image-Dataset)
 
 Download the [exdark-checkpoint](https://drive.google.com/file/d/1W1sZZLCv6LroA6WTaitPxOHT1caSwGko/view) file and place it in the "checkpoint/" folder. 
 
+Run the exdark training script as below
+
+```
+python train_exdark.py --config-file configs/exdark_config.yaml --num-gpus <num-gpus>
+```
+
 Run the exdark testing script as below
 
 ```
@@ -68,6 +74,12 @@ Create a new folder named "darkface" in the "data" folder.
 Download the [DARK FACE](https://flyywh.github.io/CVPRW2019LowLight/) dataset and copy the images into "data/darkface/".
 
 Download the [darkface-checkpoint](https://drive.google.com/file/d/1V58MSf9JO92BQNS2CIvwC-b26O2Ybpcr/view) file and place it in the "checkpoint/" folder.
+
+Run the darkface training script as below
+
+```
+python train_darkface.py --config-file configs/darkface_config.yaml --num-gpus <num-gpus>
+```
 
 Run the darkface testing script as below
 
