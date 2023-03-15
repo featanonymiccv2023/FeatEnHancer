@@ -36,7 +36,7 @@ Clone the FeatEnHancer repo:
 https://github.com/featanonymiccv2023/FeatEnHancer.git
 ```
 
-For ExDark testing,
+### ExDark
 
 Create a new folder named "exdark" in the "data" folder.
 
@@ -50,7 +50,7 @@ Run the exdark testing script as below
 sh test_exdark.sh
 ```
 
-For DarkFace testing,
+### DARK FACE
 
 Create a new folder named "exdark" in the "data" folder.
 
