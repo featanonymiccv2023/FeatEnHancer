@@ -26,7 +26,7 @@ Extracting useful visual cues for the downstream tasks is especially challenging
 
 ## Installation
 
-Our code is based on [Detectron2](https://github.com/facebookresearch/detectron2), please refer to [here](https://detectron2.readthedocs.io/en/latest/tutorials/install.html) for more details.
+Our code is based on [Featurized Query R-CNN](https://github.com/hustvl/Featurized-QueryRCNN) and [Detectron2](https://github.com/facebookresearch/detectron2). We thank them for their open-source code. 
 
 Install the Detectron2:
 
@@ -35,6 +35,8 @@ git clone https://github.com/facebookresearch/detectron2.git
 
 python setup.py build develop
 ```
+
+Please refer to [Here](https://detectron2.readthedocs.io/en/latest/tutorials/install.html) for more details, regarding the installation of detectron2.
 
 Clone the FeatEnHancer repo:
 
@@ -47,15 +49,15 @@ https://github.com/featanonymiccv2023/FeatEnHancer.git
 * Models for other downstream tasks such as Semantic Segmentation and Video Object Detection are based on other frameworks. Therefore, a unified repository will be released after the publication of this work.
 
 
-### ExDark
+### Dark Object Detection on ExDark
 
-Create a new folder named "exdark" in the "data" folder.
+* Create a new folder named "exdark" in the "data" folder.
 
-Download the [ExDark](https://github.com/cs-chan/Exclusively-Dark-Image-Dataset) dataset and copy the images into "data/exdark/".
+* Download the [ExDark](https://github.com/cs-chan/Exclusively-Dark-Image-Dataset) dataset and copy the images into "data/exdark/".
 
-Download the coco [pre-trained-weights](https://drive.google.com/file/d/1Epx1e7Xg9XQYsGmocBMlBHvZq5MtR4kr/view) and place it in the "checkpoint/" folder. 
+* For training, download the coco [pre-trained-weights](https://drive.google.com/file/d/1Epx1e7Xg9XQYsGmocBMlBHvZq5MtR4kr/view) and place it in the "checkpoint/" folder. These weights are provided by the [Featurized Query R-CNN](https://github.com/hustvl/Featurized-QueryRCNN).
 
-Download the [exdark-checkpoint](https://drive.google.com/file/d/1W1sZZLCv6LroA6WTaitPxOHT1caSwGko/view) file and place it in the "checkpoint/" folder. 
+* For evaluation, download the [exdark-checkpoint](https://drive.google.com/file/d/1W1sZZLCv6LroA6WTaitPxOHT1caSwGko/view) file and place it in the "checkpoint/" folder. 
  
 
 Run the exdark training script as below
@@ -70,15 +72,15 @@ Run the exdark testing script as below
 sh test_exdark.sh
 ```
 
-### DARK FACE
+### Face Detection on DARK FACE
 
-Create a new folder named "darkface" in the "data" folder.
+* Create a new folder named "darkface" in the "data" folder.
 
-Download the [DARK FACE](https://flyywh.github.io/CVPRW2019LowLight/) dataset and copy the images into "data/darkface/".
+* Download the [DARK FACE](https://flyywh.github.io/CVPRW2019LowLight/) dataset and copy the images into "data/darkface/".
 
-Download the coco [pre-trained-weights](https://drive.google.com/file/d/1Epx1e7Xg9XQYsGmocBMlBHvZq5MtR4kr/view) and place it in the "checkpoint/" folder. 
+* For training, download the coco [pre-trained-weights](https://drive.google.com/file/d/1Epx1e7Xg9XQYsGmocBMlBHvZq5MtR4kr/view) and place it in the "checkpoint/" folder.  These weights are provided by the [Featurized Query R-CNN](https://github.com/hustvl/Featurized-QueryRCNN).
 
-Download the [darkface-checkpoint](https://drive.google.com/file/d/1V58MSf9JO92BQNS2CIvwC-b26O2Ybpcr/view) file and place it in the "checkpoint/" folder.
+* For evaluation, download the [darkface-checkpoint](https://drive.google.com/file/d/1V58MSf9JO92BQNS2CIvwC-b26O2Ybpcr/view) file and place it in the "checkpoint/" folder.
 
 Run the darkface training script as below
 
