@@ -27,9 +27,17 @@ git clone https://github.com/facebookresearch/detectron2.git
 python setup.py build develop
 ```
 
-For testing, run:
+For testing:
+
+Download the FeatEnHancer repo:
+
+```
+https://github.com/featanonymiccv2023/FeatEnHancer.git
+```
 
 Download the [ExDark](https://github.com/cs-chan/Exclusively-Dark-Image-Dataset) dataset and place the images into data/images/ folder and run the test_exdark file
+
+Run the testing script
 
 ```
 sh test_exdark.sh
