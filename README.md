@@ -15,7 +15,7 @@ Extracting useful visual cues for the downstream tasks is especially challenging
 
 ## Installation and Training
 
-Our methods are based on [detectron2](), please refer to [here]() for more details.
+Our methods are based on [detectron2](https://github.com/facebookresearch/detectron2), please refer to [here](https://detectron2.readthedocs.io/en/latest/tutorials/install.html) for more details.
 
 Install the detectron2:
 
