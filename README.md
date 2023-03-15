@@ -35,12 +35,24 @@ Download the FeatEnHancer repo:
 https://github.com/featanonymiccv2023/FeatEnHancer.git
 ```
 
-Download the [ExDark](https://github.com/cs-chan/Exclusively-Dark-Image-Dataset) dataset and place the images into data/images/ folder and run the test_exdark file
+For ExDark testing,
 
-Run the testing script
+Download the [ExDark](https://github.com/cs-chan/Exclusively-Dark-Image-Dataset) dataset and place the images into data/exdark/ folder and run the test_exdark file
+Download the [exdark-checkpoint](https://drive.google.com/file/d/1W1sZZLCv6LroA6WTaitPxOHT1caSwGko/view) file and place it in the checkpoint/ folder.
+Run the exdark testing script as below
 
 ```
 sh test_exdark.sh
+```
+
+For DarkFace testing,
+
+Download the [DARK FACE](https://flyywh.github.io/CVPRW2019LowLight/) dataset and place the images into data/darkface/ folder and run the test_exdark file
+Download the [darkface-checkpoint]() file and place it in the checkpoint/ folder.
+Run the darkface testing script as below
+
+```
+sh test_darkface.sh
 ```
 
 
