@@ -13,30 +13,17 @@ class ScaleAwareFeatureAggregation(nn.Module):
     def __init__(self, channels, query_image_size, key_image_size):
         super().__init__()
 
-        query_stride = query_image_size // 79
-        key_stride = key_image_size // 79
-        key_kernel = key_stride
-        if key_stride > 1:
-            key_kernel = 3
-
-        self.num_temporal_attention_blocks = 8
-        if self.num_temporal_attention_blocks > 0:
+        self.num_attention_blocks = 8
+        if self.num_attention_blocks > 0:
             self.query_conv1 = nn.Conv2d(in_channels = channels , out_channels = channels , kernel_size= 7, stride=4)
             self.query_conv2 = nn.Conv2d(in_channels=channels, out_channels=channels, kernel_size=3, stride=2)
             self.key_conv = nn.Conv2d(in_channels = channels , out_channels = channels , kernel_size=3, stride=2)
 
 
     def forward(self, x, ref_x):
-        """ Aggregate the X7 features`x` with the Qurter or Hexa features : ref_x
-                `ref_x`.
-                The aggregation mainly contains three steps:
-                1. Pass through a tiny embed network.
-                2. Use multi-head attention to computing the weight between `x` and
-                `ref_x`.
-                3. Use the normlized (i.e. softmax) weight to weightedly sum `x` and
-                `ref_x`.
-                Returns:
-                    Tensor: The aggregated features with shape [roi_n, C, roi_h, roi_w].
+        """ 
+            Aggregate the X7 features`x` with the Qurter features
+   
         """
         orig_x = x
         x = self.query_conv1(x)
