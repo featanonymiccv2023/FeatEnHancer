@@ -40,7 +40,7 @@ sh test_exdark.sh
 
 
 <table>
-<tr><th> **ExDark** </th><th> DARK FACE </th></tr>
+<tr><th> ExDark </th> <th> </th> <th> DARK FACE </th></tr>
 <tr><td>
 
 |                          Method                                     |   AP@50   |   AP  |
@@ -54,8 +54,11 @@ sh test_exdark.sh
 |                          Zero-DCE                                   |   80.6    |   52.0   |  
 |                            MAET                                     |   81.6    |   52.4   |   
 |                       **FeatEnHancer**                              | **86.3**  | **56.5** |  
+</td>
 
-</td><td>
+  <td>         </td>
+  
+<td>
 
 |                          Method                                     |   AP@50   |   AP  |
 |:-------------------------------------------------------------------:|:---------:| :-----:  |
