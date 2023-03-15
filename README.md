@@ -34,6 +34,41 @@ sh test_exdark.sh
 
 ```
 
+<div align="center">
+<h1>Results</h1>
+
+
+<div style="width: 20%; float:left">
+ |                          Method                                     |   AP@50   |   AP  |
+|:-------------------------------------------------------------------:|:---------:| :-----:  |
+|                          Baseline                                   |   74.5    |    47.0  | 
+|                            RAUS                                     |   77.0    |   48.1   | 
+|                            KIND                                     |   80.5    |   51.5   |  
+|                          Zero-DCE++                                 |   79.5    |   49.2   | 
+|                           EnGAN                                     |   80.0    |   51.9   |   
+|                           MBLLEN                                    |   80.0    |   51.0   |   
+|                          Zero-DCE                                   |   80.6    |   52.0   |  
+|                            MAET                                     |   81.6    |   52.4   |   
+|                       **FeatEnHancer**                              | **86.3**  | **56.5** |  
+</div>
+
+<div style="width: 80%; float:right">
+   |                          Method                                     |   AP@50   |   AP  |
+|:-------------------------------------------------------------------:|:---------:| :-----:  |
+|                          Baseline                                   |   67.5    |   28.6   | 
+|                            RAUS                                     |   65.5    |   27.4   | 
+|                            KIND                                     |   65.0    |   27.5   |  
+|                          Zero-DCE++                                 |   66.2    |   28.2   | 
+|                           EnGAN                                     |   67.4    |   28.4   |   
+|                           MBLLEN                                    |   67.3    |   27.1   |   
+|                          Zero-DCE                                   |   66.9    |   27.5   |  
+|                            MAET                                     |   66.1    |   27.1   |   
+|                       **FeatEnHancer**                              | **69.0**  | **29.4** | 
+</div>
+
+</div>
+
+
 ## Results
 
 ### ExDark
