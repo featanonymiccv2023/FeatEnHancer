@@ -52,7 +52,7 @@ sh test_exdark.sh
 
 ### DARK FACE
 
-Create a new folder named "exdark" in the "data" folder.
+Create a new folder named "darkface" in the "data" folder.
 
 Download the [DARK FACE](https://flyywh.github.io/CVPRW2019LowLight/) dataset and copy the images into "data/darkface/".
 
