@@ -39,8 +39,11 @@ https://github.com/featanonymiccv2023/FeatEnHancer.git
 For ExDark testing,
 
 Create a new folder named "exdark" in the "data" folder.
+
 Download the [ExDark](https://github.com/cs-chan/Exclusively-Dark-Image-Dataset) dataset and copy the images into "data/exdark/".
-Download the [exdark-checkpoint](https://drive.google.com/file/d/1W1sZZLCv6LroA6WTaitPxOHT1caSwGko/view) file and place it in the "checkpoint/" folder.
+
+Download the [exdark-checkpoint](https://drive.google.com/file/d/1W1sZZLCv6LroA6WTaitPxOHT1caSwGko/view) file and place it in the "checkpoint/" folder. 
+
 Run the exdark testing script as below
 
 ```
@@ -50,8 +53,11 @@ sh test_exdark.sh
 For DarkFace testing,
 
 Create a new folder named "exdark" in the "data" folder.
+
 Download the [DARK FACE](https://flyywh.github.io/CVPRW2019LowLight/) dataset and copy the images into "data/darkface/".
+
 Download the [darkface-checkpoint](https://drive.google.com/file/d/1V58MSf9JO92BQNS2CIvwC-b26O2Ybpcr/view) file and place it in the "checkpoint/" folder.
+
 Run the darkface testing script as below
 
 ```
